@@ -1,4 +1,5 @@
 <script setup>
+import Precio from './components/Precio.vue';
 import Recibo from './components/Recibo.vue'
 </script>
 
@@ -20,5 +21,6 @@ import Recibo from './components/Recibo.vue'
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-align: center;
 }
 </style>

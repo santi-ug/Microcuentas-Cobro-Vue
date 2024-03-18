@@ -4,23 +4,24 @@
         <div class="recibo">
             <div class="platos">
                 <div class="platos-item">
-                    <label for="">Nombre de Plato</label>
-                    <input type="text">
-                </div>
-            
-        
-                <div class="platos-item">
-                    <label for="">Precio Plato</label>
-                    <input type="text">
-                </div>
-            
-        
-                <div class="platos-buttons">
-                    <button class="add-one">Add</button>
-                    <button class="remove-one">Remove</button>
+                    <label for="nombre">Nombre de Plato</label>
+                    <input type="text" id="nombre" v-model="nombre">
                 </div>
 
-                <button class="add-plate">Agregar Plato</button>
+                <div class="platos-item">
+                    <label for="precio">Precio Plato</label>
+                    <input type="text" id="precio" v-model.number="precio">
+                </div>
+                <div class="platos-item">
+                    <label for="cantidad">Cantidad Plato</label>
+                    <input type="text" id="cantidad" v-model.number="cantidad">
+                </div>
+                <div class="platos-buttons">
+                    <button class="add-one" @click="agregarcantidad">Add</button>
+                    <button class="remove-one" @click="eliminarcantidad">Remove</button>
+                </div>
+
+                <button class="add-plate" @click="agregarPlato" >Agregar Plato</button>
             </div>
             <div class="factura">
                 <div class="factura-platos_agregados"></div>
@@ -30,12 +31,67 @@
     </div>
 </template>
 
-<script></script>
+<script>
+    import { ref } from 'vue';
+
+    export default {
+        setup() {
+            const nombre = ref("");
+            const cantidad = ref(0);
+            const precio = ref(0);
+            const platos = ref([]);
+
+            const agregarcantidad = () => {
+                cantidad.value +=1
+            }
+            const eliminarcantidad = () => {
+                if (cantidad.value > 0) {
+                    cantidad.value -= 1;
+                }else{
+                    alert("Debe existir al menos un plato");
+                }
+            }
+            const agregarPlato = () => {
+                if (nombre.value && cantidad.value && precio.value > 0) {
+                    platos.value.push({
+                        nombre: nombre.value,
+                        cantidad: cantidad.value,
+                        precio: precio.value
+                    });
+                    // Limpiar los campos después de agregar un plato
+                    nombre.value = "";
+                    cantidad.value = 0;
+                    precio.value = 0;
+                } else {
+                    alert("Por favor, complete todos los campos correctamente.");
+                }
+            };
+
+            const eliminarPlato = (index) => {
+                platos.value.splice(index, 1);
+            };
+
+            const calcularTotal = () => {
+                let total = 0;
+                platos.value.forEach(plato => {
+                    total += plato.precio * plato.cantidad;
+                });
+                return total;
+            };
+
+            return {
+                nombre, cantidad, precio, platos, agregarPlato, eliminarPlato, calcularTotal, agregarcantidad, eliminarcantidad
+            };
+        }
+    };
+</script>
 
 <style scoped>
 .container {
     background-color: rgb(68, 68, 68);
     border-radius: 2rem;
+    justify-content: center;
+    align-items: center;
 }
 .titulo {
     text-align: center;
