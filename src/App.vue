@@ -1,5 +1,4 @@
 <script setup>
-import Precio from './components/Precio.vue';
 import Recibo from './components/Recibo.vue'
 </script>
 
