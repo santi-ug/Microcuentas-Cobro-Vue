@@ -40,14 +40,6 @@
                             
                         </tbody>
                     </table>
-                    <!-- <div class="factura-platos_agregados-platos" v-for="(plato, index) in platos" :key="index">
-                        <div class="factura-platos_agregados-plato">
-                            <p>{{ plato.cantidad }}x</p>
-                            <h3>{{ plato.nombre }}</h3>
-                            <p>$ {{ plato.precio }}</p>
-                            <button @click="eliminarPlato(index)">X</button>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="factura-precio_total">
                     <h1>Precio Total: <strong> ${{ calcularTotal() }} </strong></h1>
@@ -227,12 +219,12 @@
 
 .factura-precio_total h1 {
     color: white;
-    font-size: 1rem;
+    font-size: 1.25rem;
 }
 
 .factura-precio_total h1 strong {
     color: rgb(255, 155, 155);
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     margin-left: 1rem;
 }
 
