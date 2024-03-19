@@ -3,29 +3,55 @@
         <h1 class="titulo">Microcuentas de Cobro</h1>
         <div class="recibo">
             <div class="platos">
+                <h1>Agregar Un Plato</h1>
                 <div class="platos-item">
-                    <label for="nombre">Nombre de Plato</label>
+                    <label for="nombre">Nombre de Plato:</label>
                     <input type="text" id="nombre" v-model="nombre">
                 </div>
 
                 <div class="platos-item">
-                    <label for="precio">Precio Plato</label>
+                    <label for="precio">Precio Plato:</label>
                     <input type="text" id="precio" v-model.number="precio">
                 </div>
                 <div class="platos-item">
-                    <label for="cantidad">Cantidad Plato</label>
-                    <input type="text" id="cantidad" v-model.number="cantidad">
+                    <label for="cantidad">Cantidad del Plato:</label>
+                    <div class="platos-buttons">
+                        <button class="remove-one" @click="eliminarcantidad">-</button>
+                        <input type="text" id="cantidad" v-model.number="cantidad">
+                        <button class="add-one" @click="agregarcantidad">+</button>
+                    </div>
                 </div>
-                <div class="platos-buttons">
-                    <button class="add-one" @click="agregarcantidad">Add</button>
-                    <button class="remove-one" @click="eliminarcantidad">Remove</button>
-                </div>
+
 
                 <button class="add-plate" @click="agregarPlato" >Agregar Plato</button>
             </div>
             <div class="factura">
-                <div class="factura-platos_agregados"></div>
-                <div class="factura-precion_total"></div>
+                <h1>Platos Agregados</h1>
+                <div class="factura-platos_agregados">
+                    <table class="factura-platos-table" >
+                        <tbody v-for="(plato, index) in platos" :key="index">
+
+                            <tr>
+                                <td>{{ plato.cantidad }}x</td>
+                                <td>{{ plato.nombre }}</td>
+                                <td>${{ plato.precio }}</td>
+                                <button @click="eliminarPlato(index)">X</button>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <!-- <div class="factura-platos_agregados-platos" v-for="(plato, index) in platos" :key="index">
+                        <div class="factura-platos_agregados-plato">
+                            <p>{{ plato.cantidad }}x</p>
+                            <h3>{{ plato.nombre }}</h3>
+                            <p>$ {{ plato.precio }}</p>
+                            <button @click="eliminarPlato(index)">X</button>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="factura-precio_total">
+                    <h1>Precio Total: <strong> ${{ calcularTotal() }} </strong></h1>
+                </div>
             </div>
         </div>
     </div>
@@ -92,6 +118,7 @@
     border-radius: 2rem;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 .titulo {
     text-align: center;
@@ -103,9 +130,12 @@
 .platos {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-left: 2rem;
+}
+
+.platos > h1 {
+    font-size: 1.5rem;
 }
 
 .platos-item {
@@ -123,17 +153,27 @@
 .platos-buttons {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
+}
+
+.platos-buttons input {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: none;
+    width: 6.7rem;
+    text-align: center;
+
 }
 
 .platos-buttons button {
-    padding: 0.5rem 4.8rem;
-    border-radius: 1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 100%;
     color: white;
     border: none;
 }
 
 .platos-buttons button:first-child {
-    background-color: rgb(155, 255, 155);
+    background-color: rgb(97, 187, 97);
 }
 
 .platos-buttons button:last-child {
@@ -145,12 +185,95 @@
     border-radius: 1rem;
     color: white;
     border: none;
+    font-size: 1rem;
+    font-weight: 600;
     background-color: rgb(155, 155, 255);
 }
 
 .recibo {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    gap: 4rem;
     padding: 1rem;
+}
+
+.factura {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-right: 4rem;
+    font-size: 0.7rem;
+}
+
+.factura-platos_agregados {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 1rem;
+}
+
+.factura-platos_agregados-platos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.factura > h1 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.factura-precio_total h1 {
+    color: white;
+    font-size: 1rem;
+}
+
+.factura-precio_total h1 strong {
+    color: rgb(255, 155, 155);
+    font-size: 1.25rem;
+    margin-left: 1rem;
+}
+
+.factura-platos_agregados-plato {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    color: white;
+}
+
+/* RECEIPT */
+.factura-platos-table {
+    border-collapse: collapse;
+}
+
+.factura-platos-table td,
+.factura-platos-table button {
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.factura-platos-table button {
+    border: none;
+    padding: 0.18rem 0.35rem;
+    border-radius: 100%;
+    background-color: rgb(255, 155, 155);
+    transform: translateY(0.45rem);
+}
+
+
+
+.factura-platos_agregados-plato button {
+    padding: 0.2rem 0.4rem;
+    border-radius: 50%;
+    color: white;
+    border: none;
+    background-color: rgb(255, 155, 155);
 }
 </style>

@@ -1,12 +1,8 @@
 <script setup>
-import Recibo from './components/Recibo.vue'
+import Recibo from './components/Recibo.vue';
 </script>
 
 <template>
-  <header>
-
-  </header>
-
   <main>
     <Recibo />
   </main>
@@ -21,5 +17,9 @@ import Recibo from './components/Recibo.vue'
     padding: 0;
     box-sizing: border-box;
     text-align: center;
+}
+
+main {
+  width: 60rem;
 }
 </style>
