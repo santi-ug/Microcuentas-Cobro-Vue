@@ -62,7 +62,17 @@
                     nombre.value = "";
                     cantidad.value = 0;
                     precio.value = 0;
-                } else {
+                }else if(nombre.value && cantidad.value > 0 && precio.value == 0){
+                    platos.value.push({
+                        nombre: nombre.value,
+                        cantidad: cantidad.value,
+                        precio: "Contesía"
+                    });
+                    // Limpiar los campos después de agregar un plato
+                    nombre.value = "";
+                    cantidad.value = 0;
+                    precio.value = 0;
+                }else {
                     alert("Por favor, complete todos los campos correctamente.");
                 }
             };
@@ -74,7 +84,10 @@
             const calcularTotal = () => {
                 let total = 0;
                 platos.value.forEach(plato => {
-                    total += plato.precio * plato.cantidad;
+                    if (!isNaN(plato.precio)){
+                        total += plato.precio * plato.cantidad;
+                    }
+
                 });
                 return total;
             };
