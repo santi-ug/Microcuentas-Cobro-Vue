@@ -37,7 +37,7 @@
                                 <td>${{ plato.precio }}</td>
                                 <button @click="eliminarPlato(index)">X</button>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -70,26 +70,35 @@
                 }
             }
             const agregarPlato = () => {
-                if (nombre.value && cantidad.value && precio.value > 0) {
-                    platos.value.push({
-                        nombre: nombre.value,
-                        cantidad: cantidad.value,
-                        precio: precio.value
-                    });
-                    // Limpiar los campos después de agregar un plato
-                    nombre.value = "";
-                    cantidad.value = 0;
-                    precio.value = 0;
-                }else if(nombre.value && cantidad.value > 0 && precio.value == 0){
-                    platos.value.push({
-                        nombre: nombre.value,
-                        cantidad: cantidad.value,
-                        precio: "Contesía"
-                    });
-                    // Limpiar los campos después de agregar un plato
-                    nombre.value = "";
-                    cantidad.value = 0;
-                    precio.value = 0;
+                if (nombre.value && cantidad.value) {
+                    if (precio.value > 0){
+                        platos.value.push({
+                            nombre: nombre.value,
+                            cantidad: cantidad.value,
+                            precio: precio.value
+                        });
+                        // Limpiar los campos después de agregar un plato
+                        nombre.value = "";
+                        cantidad.value = 0;
+                        precio.value = 0;
+                    }else if(precio.value == 0){
+                        var respuesta = window.confirm("¿Estás seguro de que es un plato de Cortesía?");
+                        if (respuesta) {
+                            platos.value.push({
+                                nombre: nombre.value,
+                                cantidad: cantidad.value,
+                                precio: "Contesía"
+                            });
+                            // Limpiar los campos después de agregar un plato
+                            nombre.value = "";
+                            cantidad.value = 0;
+                            precio.value = 0;
+                        } else {
+                            alert("Por favor, ingrese el precio correctamente")
+                        }
+                    }else {
+                        alert("El precio no puede ser negativo");
+                    }
                 }else {
                     alert("Por favor, complete todos los campos correctamente.");
                 }
